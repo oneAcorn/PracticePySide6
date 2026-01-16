@@ -36,6 +36,9 @@ class MainWindow(QMainWindow):
         spinbox.setSingleStep(3)  # Or setSingleStep(3.0) for QDoubleSpinBox
         spinbox.valueChanged.connect(self.value_changed)
         spinbox.textChanged.connect(self.value_changed_str)
+        
+        # readonly
+        # spinbox.lineEdit().setReadOnly(True)
 
         self.setCentralWidget(spinbox)
 
