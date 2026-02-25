@@ -35,31 +35,42 @@ class MainWindow(QMainWindow):
         toolbar.setIconSize(QSize(16, 16))
         self.addToolBar(toolbar)
 
-        icon_path = get_img_path('open_light_btn')
-        print(f'imgpath:{icon_path}')
-        button_action = QAction(QIcon(icon_path), "Your button", self)
+        button_action = QAction(QIcon("bug.png"), "&Your button", self)
         button_action.setStatusTip("This is your button")
         button_action.triggered.connect(self.toolbar_button_clicked)
         button_action.setCheckable(True)
+        # You can enter keyboard shortcuts using key names (e.g. Ctrl+p)
+        # Qt.namespace identifiers (e.g. Qt.CTRL + Qt.Key_P)
+        # or system agnostic identifiers (e.g. QKeySequence.Print)
+        button_action.setShortcut(QKeySequence("Ctrl+p"))
         toolbar.addAction(button_action)
-        
-        """
-        Note that Qt uses your operating system's default settings to determine whether to show an icon, text, 
-        or an icon and text in the toolbar. But you can override this by using setToolButtonStyle(). 
-        This slot accepts any of the following flags from the Qt namespace:
-        Qt.ToolButtonStyle.ToolButtonIconOnly	Icon only, no text
-        Qt.ToolButtonStyle.ToolButtonTextOnly	Text only, no icon
-        Qt.ToolButtonStyle.ToolButtonTextBesideIcon	Icon and text, with text beside the icon
-        Qt.ToolButtonStyle.ToolButtonTextUnderIcon	Icon and text, with text under the icon
-        Qt.ToolButtonStyle.ToolButtonFollowStyle	Follow the host desktop style (default)
-        """
-        # toolbar.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+
+        toolbar.addSeparator()
+
+        button_action2 = QAction(QIcon("bug.png"), "Your &button2", self)
+        button_action2.setStatusTip("This is your button2")
+        button_action2.triggered.connect(self.toolbar_button_clicked)
+        button_action2.setCheckable(True)
+        toolbar.addAction(button_action2)
+
+        toolbar.addWidget(QLabel("Hello"))
+        toolbar.addWidget(QCheckBox())
 
         self.setStatusBar(QStatusBar(self))
 
+        menu = self.menuBar()
+
+        file_menu = menu.addMenu("&File")
+        file_menu.addAction(button_action)
+        file_menu.addSeparator()
+        # file_menu.addAction(button_action2)
+        
+        file_submenu = file_menu.addMenu("Submenu")
+        file_submenu.addAction(button_action2)
+
     def toolbar_button_clicked(self, s):
         print("click", s)
-
+        
 app = QApplication([])
 window = MainWindow()
 window.show()
